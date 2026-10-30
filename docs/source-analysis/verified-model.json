@@ -1,0 +1,20 @@
+{
+  "model_name": "HistGradientBoosting",
+  "model_sha256": "eb386590deabeda2a9a86a68d4f996053fac80b30fb01a6778f0625d4afb1d19",
+  "evaluation": "Reconstructed original notebook test split, not an external holdout",
+  "test_records": 15000,
+  "threshold": 0.2535353535353535,
+  "accuracy": 0.5684666666666667,
+  "f1": 0.539910441395977,
+  "roc_auc": 0.6858837214052289,
+  "confusion_matrix": [
+    [
+      4729,
+      5471
+    ],
+    [
+      1002,
+      3798
+    ]
+  ]
+}

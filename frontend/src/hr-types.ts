@@ -1,0 +1,10 @@
+import type { Prediction } from './types';
+export interface Analysis { analysis_id: string; filename: string; source_kind: 'upload' | 'demo'; row_count: number; source_rows: number; rejected_rows: number; eligible_predictions: number; threshold: number; expires_after_minutes: number; available_metrics: string[] }
+export interface ImportField { key: string; label: string; kind: string }
+export interface ImportPreview { import_id: string; filename: string; sheets: string[]; sheet: string | null; headers: string[]; row_count: number; preview: Record<string, unknown>[]; mapping: Record<string, string>; fields: ImportField[] }
+export interface ImportIssue { row: number; field: string; message: string; value: string }
+export interface ImportValidation { total_rows: number; valid_rows: number; rejected_rows: number; eligible_predictions: number; issues: ImportIssue[]; issue_count: number }
+export interface HrMetric { key: string; label: string; unit: string; value: number | null; n: number }
+export interface HrOverview { count: number; total_count: number; metrics: HrMetric[]; groups: { name: string; count: number; value: number | null; n: number }[]; group_by: string | null; group_keys: string[]; group_metric: [string, string] | null; distribution: { name: string; count: number }[]; distribution_kind: string | null; relationship: { name: string; count: number; value: number }[]; score_metric: [string, string] | null; insights: string[]; eligible_predictions: number; filters: Record<string, string[]> }
+export interface EmployeeRow { row_id: string; source_row: number; employee_id?: string; employee_name?: string; department?: string; team?: string; job_role?: string; work_mode?: string; country?: string; stress_score?: number; burnout_score?: number; cbi_score?: number; burnout_level?: string; model_eligible: boolean; model_missing_fields: string[]; model_reason: string; prediction: Prediction | null; prediction_probability: number | null; [key: string]: unknown }
+export interface EmployeeList { count: number; page: number; page_size: number; records: EmployeeRow[] }

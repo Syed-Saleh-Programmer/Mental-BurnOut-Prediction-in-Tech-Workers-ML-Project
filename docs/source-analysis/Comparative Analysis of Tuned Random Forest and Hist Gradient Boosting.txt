@@ -1,0 +1,692 @@
+PAGE 1
+JIIFKOM (Jurnal Ilmiah Informatika & Komputer) UTR Cepu
+E-Mail: jiifkom@utrcepu.ac.id
+Comparative Analysis of Tuned Random Forest and Hist Gradient Boosting
+Algorithms for Turnover Intention Prediction Based on Employee Mental
+Workload Indicators
+Yelmi a*, Kusrini b, Indra Gunawan c
+Corresponding email: yelmicepu@gmail.com
+Universitas Amikom Yogyakarta a,b
+Universitas Teknologi Ronggolawe c
+Keywords:
+Machine Learning, Random Forest, Hist
+Gradient Boosting, SMOTE, Turnover
+Intention, Employee Mental Workload
+Article info:
+- received: June 19, 2026
+- published: July 1, 2026
+Abstract (Intisari)
+Poorly managed mental workload in the digital transformation era contributes significantly
+to the employee turnover phenomenon, which compromises organizational stability and
+balance. This study aims to conduct a comparative performance analysis of predictive
+models for employee turnover intention using two ensemble learning algorithms: Random
+Forest (RF) and Hist Gradient Boosting (Hist GB). An empirical dataset of employee mental
+workload was processed through a series of machine learning stages, including feature
+engineering to construct a work-hours-to-sleep ratio and composite mental load (total mental
+load). The severe class imbalance challenge, where the target class proportion stands at a
+68% (stay) to 32% (leave intention) ratio, was addressed using the Synthetic Minority Over-
+sampling Technique (SMOTE). Models were optimized via hyperparameter tuning and
+validated using 5-Fold Stratified Cross-Validation. Experimental results based on real
+program data demonstrate that the Base scenario yields a pseudo accuracy (~69%) with a
+very low F1-Score (~27%). The SMOTE intervention successfully rescued the models from
+majority class bias, with the SMOTE-optimized Random Forest outperforming in
+generalization stability, achieving a Mean CV Accuracy of 74.47%. On the other hand, Hist
+Gradient Boosting (Optimized) produced the best minority class detection performance,
+reaching the highest Test F1-Score of 52.60% and maintaining an AUC Score of 0.68.
+Feature Rank analysis identified burnout score, deadline pressure score, and stress score as
+the three most crucial indicators in triggering turnover intention.
+Keywords:
+Machine Learning, Random Forest,
+Histogram-Based Gradient Boosting,
+SMOTE, Turnover Intention, Employee
+Mental Workload
+Abstract
+Poorly managed mental workload in the digital transformation era contributes significantly
+to the employee turnover phenomenon, which compromises organizational stability. This
+study aims to conduct a comparative performance analysis of predictive models for job
+change intention using two ensemble learning algorithms: Random Forest (RF) and Hist
+Gradient Boosting (Hist GB). An empirical dataset of employee mental workload was
+processed through a series of data mining stages, including feature engineering to construct a
+work-hours-to-sleep ratio and a composite total mental load. The severe class imbalance
+challenge where the target class proportion stands at a 78% (retain) to 22% (turnover) ratio
+was addressed using the Synthetic Minority Over sampling Technique (SMOTE). The
+models were optimized via hyperparameter tuning and validated using 5-Fold Stratified
+Cross-Validation. Experimental results based on real program data demonstrate that the Base
+scenario yields a pseudo accuracy (~69%) with a very low F1-Score (~27%). The SMOTE
+intervention successfully rescued the models from majority class...
+JIIFKOM (Jurnal Ilmiah Informatika & Komputer) STTR Cepu Vol.5 No.2 (2026) Page 7
+
+PAGE 2
+bias, with the SMOTE-optimized Random Forest
+outperforming in generalization stability, achieving a Mean
+CV Accuracy of 74.47%. On the other hand, the Optimized
+Hist Gradient Boosting produced the best minority class
+detection performance, reaching the highest Test F1-Score of
+52.60% while maintaining an AUC Score of 0.68. Feature
+Rank analysis identified burnout score, deadline pressure
+score, and stress score as the three most crucial indicators in
+triggering job change intention.
+1. Introduction
+Based on datasets regarding the conditions of physical,
+mental, and emotional exhaustion resulting from chronic
+occupational stress experienced by professionals in the
+technology industry. This condition arises due to heavy
+pressure, long working hours, rapid expectations, and urgent
+deadlines in the sector brought about by rapid digital
+technological advances in modern industrial environments.
+Such conditions have transformed how organizations view
+operations while simultaneously triggering an escalation in
+mental workload for employees. The pressure to adapt to
+emerging technologies, dynamic target fluctuations, and the
+blurring boundaries between workplace and personal life in
+remote work arrangements have exacerbated workers'
+psychological vulnerability (Ambrose & Qayum, 2024).
+Cumulative mental workload that is not appropriately
+mitigated gradually turns into chronic burnout (Jeong et al.,
+2025), decreased productivity levels (Indriya, Fazlurrahman, &
+Fitro, 2024), and psychological distress disorders (Bakkeli,
+2023).
+The most detrimental consequence of this mental well-being
+destruction for corporate sustainability is the surge in
+employee turnover intensity (Celbis, Wong, Kourtit, &
+Nijkamp, 2023), which has been reflected globally on a
+massive scale through "The Great Resignation" phenomenon
+(Celbiş et al., 2023). When a competent employee resigns, the
+organization not only loses intellectual capital (human capital)
+but also incurs substantial financial costs for re-recruitment
+and onboarding training (Laksawut & Narkbunnum, 2025).
+Therefore, the ability to precisely map psychological
+determinants and predict turnover propensity has become a
+vital strategic agenda for modern human resource
+management.
+Amidst the complexity of these challenges, big data
+repositories and Machine Learning techniques offer
+revolutionary instruments to convert logistics data into
+strategic decision-making foundations. Computational analytic
+approaches facilitate the identification of hidden patterns
+within workers' psychosocial variables that are difficult to
+extract via conventional statistical methods (Luo et al., 2024).
+Previous research has demonstrated the effectiveness of
+machine learning algorithms in evaluating employee
+performance (Bahman & Lysenko, 2025), predicting retention
+(Mishra et al., 2025), and measuring job satisfaction across
+multiple sectors (Fang, Chen, & Shi, 2025). Through
+predictive modeling, HR managers can shift from reactive
+handling to proactive, preventative intervention strategies
+before turnover decisions are executed.
+Numerous prior studies have affirmed the robustness of
+supervised machine learning algorithms in analyzing
+workforce behavior and psychological metrics. For instance,
+research by Guo et al. (2026) explored turnover intention
+intensity among Australian school principals using Extreme
+Gradient Boosting (XGBoost). Meanwhile, research led by
+Jeong et al. (2025) leveraged machine learning paired with
+Shapley Additive Explanations (SHAP) to detect burnout
+syndrome based on the Korean Occupational Stress Scale
+(KOSS). Severe burnout and acute stress have also been
+precisely detected through behavioral sensors in call center
+agents (Lee & Swain, 2026) and computer vision monitoring
+of control room operators (Ji et al., 2025).
+Furthermore, Laksawut and Narkbunnum (2025) proposed
+calibrated turnover risk models for capacity-constrained
+retention triage, while Indriya et al. (2024) evaluated the
+efficacy of mental health policy interventions on worker
+productivity using Gradient Boosting and Random Forest
+architectures. Collectively, this body of literature confirms that
+tree-based ensemble models are highly effective and suitable
+for processing non-linear, multi-level survey data of
+psychosocial and organizational behavior.
+JIIFKOM (Jurnal Ilmiah Informatika & Komputer) STTR Cepu Vol.5 No.2 (2026) Page 8
+
+PAGE 3
+Korea (KOSS). Occupational burnout and acute stress have
+also been proven detectable with precision via behavioral
+sensors in call center agents (Lee & Swain, 2026) and
+computer vision approaches on control room operators (Ji et
+al., 2025). On the other hand, (Laksawut and Narkbunnum,
+2025) proposed turnover risk model calibration for employee
+retention management, whereas (Indriya et al., 2024) tested the
+effectiveness of mental health policy interventions on
+employee labor productivity using Gradient Boosting and
+Random Forest architectures. Collectively, these literatures
+affirm that the utilization of tree ensemble-based algorithms is
+effective and compatible in handling non-linear and multi-level
+psychosocial and organizational behavior survey data.
+In the context of this study, the Random Forest (RF) and
+Hist Gradient Boosting (Hist GB) algorithms were chosen as
+the primary comparative subjects because both ensemble
+learning models possess complementary comparative
+advantages in tabular data processing. Random Forest operates
+by constructing an ensemble of independent decision trees in
+parallel through bagging and majority voting aggregation,
+rendering it exceptionally robust against overfitting risks
+(Bakkeli, 2023).
+Conversely, Hist Gradient Boosting applies sequential
+boosting principles that optimize the loss function of
+predecessor trees, with an innovation of grouping numerical
+features into discrete bins (histograms) to significantly
+accelerate the training pipeline on large-scale datasets. This
+comparative study also integrates advanced processing
+techniques such as composite feature engineering, class
+imbalance mitigation using SMOTE, and hyperparameter
+optimization to extract the upper performance boundaries of
+both algorithms.
+Against this background, the researchers intend to provide
+novel contributions in understanding turnover intention based
+on employee mental workload indicators through
+comprehensive empirical evaluations. By employing a three-
+scenario modeling comparison (Base Model, SMOTE Model,
+and Optimized Model), this research deeply investigates the
+extent of classification performance enhancement achievable
+through hyperparameter tuning and data balancing
+manipulation.
+The main contribution of this research lies in the visualization
+and empirical proof of the best model accuracy confirmed
+through AUC-ROC curves and Confusion Matrix
+visualizations, as well as establishing the hierarchy of the most
+influential mental workload variables via Feature Rank
+diagrams. The final outcome of this research is expected to
+formulate a valid and dependable predictive model as an
+organizational strategic intervention instrument in curbing
+employee turnover rates within an enterprise across specific
+operational periods.
+2. Research Methods
+2.1 Data Collection
+The dataset utilized in this research was obtained from 2026
+empirical data measuring mental workload levels,
+psychological health conditions, and turnover intention
+intensity among technology sector personnel (tech workers).
+This database comprises 100,000 records of multinational
+employee data spanning diverse job roles such as Software
+Engineer, Data Scientist, and Product Manager (Thalla, 2026).
+Hardware specifications, software platforms, and specific
+library versions of Python and Scikit-Learn utilized in this
+experiment are detailed in the experimental setup.
+This study specifically mapped the attributes as outlined in:
+Table 1. Dataset Variables
+No Attribute Name Data Type AttributeDescription
+1 age Numeric Employee age(years)
+2 job_role Categorical Employee role orjob position
+3 work_hours_per_week Numeric Total weeklyworking hours
+4 sleep_hours_per_nightNumeric
+Average sleep
+duration per night
+(hours)
+5 stress_score Numeric
+Employee stress
+level score (scale
+1–10)
+JIIFKOM (Jurnal Ilmiah Informatika & Komputer) STTR Cepu Vol.5 No.2 (2026) Page 9
+
+PAGE 4
+6 burnout_score Numeric Employee job burnoutscore (scale 1–10)
+The data in Table 1 provides detailed characteristics of the data
+collected in this study to predict Turnover Intention Based on
+Employee Mental Workload Indicators. The variables or
+attributes in this table form the baseline foundation for further
+data analysis and processing, enabling targeted interpretations
+to comprehend the contributing factors behind employee
+turnover intention.
+2.2. Preprocessing & Feature Engineering
+Before feeding data into the model training architecture,
+data preprocessing and feature engineering steps were carried
+out to bolster data informativeness. The employee_id
+attribute was removed from the dataset as it represents a
+unique identifier with no correlation to the classification target.
+Categorical attributes such as gender, country,
+job_role, seniority_level, company_size,
+industry, and work_mode were converted into numeric
+representations using LabelEncoder to allow ingestion by
+both ensemble algorithms.
+A crucial stage in this preprocessing was the formulation of
+two novel composite features:
+1. work_hours_to_sleep_ratio: Obtained from
+dividing work_hours_per_week by the cumulative total
+sleep hours across the week (sleep_hours_per_night
+× 7). This feature extracts the imbalance interaction between
+occupational time burden and biological recovery.
+2. total_mental_load: Represents the linear
+summation of four key mental workload indicators: stress
+score (stress_score), job burnout (burnout_score),
+depression score (phq9_score), and anxiety score
+(gad7_score). This composite feature amplifies the
+information signal of cumulative employee psychological
+distress.
+2.3. Experimental and Modeling Workflow
+The system architecture proposed in this research was
+developed using a multi-scenario evaluation pipeline to
+evaluate the robustness of Tuned Random Forest and Hist
+Gradient Boosting algorithms. The evaluation of model
+accuracy stability was locked using 5-Fold Stratified Cross-
+Validation executed directly on training partitions.
+The proposed comparative experiment workflow is
+systematically illustrated via the flowchart in Figure 1.
+Dataset: mental_health_burnout_tech
+↓
+Preprocessing & Enhanced Feature Engineering:
+1. Drop employee_id
+2. Compute total_mental_load &
+work_hours_to_sleep_ratio
+3. Execute LabelEncoder() on categorical features
+↓
+Stratified Data Split (80% Train : 20% Test)
+↓
+Scenario A:
+Base
+🗄
+Original Data
+Without Class
+Balancing
+Scenario B:
+SMOTE
+⚅  → ⚅
+Application of
+Oversampling
+on Training
+Data
+Scenario C: Optimized
+⚖
+Tuning of Internal Class Weights
+(class_weight='balanced')
+↓
+Model Training & 5-Fold Cross Validation:
+• Scenario 1–3 for Tuned Random Forest
+• Scenario 1–3 for Hist Gradient Boosting
+↓
+Pure Test Data Evaluation Using Journal Metrics:
+(Accuracy, Classification Error, F1-Score, AUC Curve, &
+Feature Rank)
+Figure 1. Research Flowchart
+JIIFKOM (Jurnal Ilmiah Informatika & Komputer) STTR Cepu Vol.5 No.2 (2026) Page 10
+
+PAGE 5
+Target Class Distribution
+0
+10000
+20000
+30000
+40000
+50000
+60000
+70000 67998 (68.0%)
+32002 (32.0%)
+Stay (0) Leave (1)
+job_change_intention
+Frequency
+Figure 2. Target Statistics
+The modeling experiments in this study were systematically
+designed across three testing scenarios for each respective
+algorithm (Random Forest and Hist Gradient Boosting), with
+the following workflows:
+Base Model Scenario: Trains the Random Forest and Hist
+Gradient Boosting algorithms using scikit-learn default library
+parameters without class imbalance handling.
+SMOTE Model Scenario: Applies Synthetic Minority
+Over-sampling Technique (SMOTE) to the training split to
+equalize target class (job_change_intention)
+distributions by generating synthetic samples in the minority
+class, followed by model training under default parameters.
+Optimized Model Scenario: Integrates SMOTE and
+conducts targeted parameter search (hyperparameter tuning).
+For Random Forest, tuned parameters include
+n_estimators=200, max_depth=15, and
+min_samples_split=5. For Hist Gradient Boosting,
+parameters were optimized at max_iter=150,
+max_depth=10, and learning_rate=0.05.
+3. Results and Discussion
+3.1 Target Data Descriptive Analysis
+Prior to evaluating classification performance, an analysis
+of the target class distribution was conducted to determine the
+degree of dataset imbalance. The visualization of the target
+data distribution from the dataset is depicted in Figure 2.
+Based on empirical data extraction, it was found that
+employees intending to stay (Class 0) significantly dominated
+compared to employees intending to change jobs (Class 1),
+with a ratio near 68% versus 32%. This proportional
+discrepancy reinforces the urgency of adopting SMOTE in the
+experimental pipeline to prevent biased models (which tend to
+accurately predict the majority class while completely failing
+to identify the minority class).
+This massive disproportion holds substantial potential to
+induce computational bias, where the model accurately guesses
+the majority class yet exhibits total failure in detecting warning
+signals from employees at risk of resigning. Therefore, data
+balancing techniques like SMOTE across experimental
+scenarios act as vital interventions ensuring the model remains
+untrapped by majority bias.
+To ensure computational reproducibility and allow study
+replication by other researchers, all comparative experiments
+were executed within a standardized computing environment.
+Data science workflows, feature engineering, SMOTE
+balancing, and hyperparameter tuning were run on the Spyder
+IDE platform under Python version 3.10. Primary libraries
+utilized for ensemble learning architectures and metric
+evaluations include Scikit-Learn version 1.3.0, supported by
+Imbalanced-learn version 0.11.0 for SMOTE implementation,
+and Pandas version 2.0.3 alongside...
+JIIFKOM (Jurnal Ilmiah Informatika & Komputer) STTR Cepu Vol.5 No.2 (2026) Page 11
+
+PAGE 6
+NumPy version 1.24.3 for tabular data manipulation. All
+simulation computations and model training based on these
+100,000 records were completed using hardware consisting of
+an Intel Core i5 @2.20GHz Central Processing Unit (CPU), 16
+GB of Random Access Memory (RAM), and a 100 GB storage
+allocation.
+3.2 Model Performance Comparison Analysis
+Experiments were conducted systematically by comparing
+three data treatment scenarios (Base, SMOTE, and Optimized)
+on the Random Forest and Hist Gradient Boosting algorithms.
+Evaluation metrics compiled include Test Accuracy,
+Classification Error, Test F1-Score, AUC Score, and Mean
+Cross-Validation Accuracy (CV Accuracy Mean). A detailed
+recap of overall model scenario performance is provided in
+Table 2:
+Table 2. Overall Model Scenario Performance Comparison
+Matrix
+Model
+Scenario
+Classification
+Algorithm
+Test
+Acc.
+Classif.
+Error
+Test
+F1-
+Score
+AUC
+Score
+CV
+Acc.
+Mean
+Scenario 1:
+Base
+Random Forest
+(Base) 0.6889 0.3111 0.2760 0.6736 0.6861
+Hist GB (Base) 0.6921 0.3079 0.2731 0.6820 0.6896
+Scenario 2:
+SMOTE
+Random Forest
+(SMOTE) 0.6605 0.3395 0.4452 0.6649 0.7447
+Hist GB
+(SMOTE) 0.6684 0.3316 0.4276 0.6661 0.7397
+Scenario 3:
+Optimized
+Random Forest
+(Optimized) 0.6916 0.3084 0.2996 0.6759 0.6854
+Hist GB
+(Optimized) 0.6155 0.3845 0.5260 0.6818 0.6144
+In-depth analysis of Table 2 reveals highly interesting
+computational behavior regarding tree-based ensemble
+algorithms when handling psychosocial data imbalances:
+1. Pseudo Accuracy Effect in Base Scenario: In the initial
+(Base) scenario, Hist GB (Base) superficially delivered the
+best performance with the highest Test Accuracy of 0.69
+(69.21%). However, examining the Test F1-Score reveals that
+both Base models produced very poor scores—only 0.27 for
+Random Forest and 0.27 for Hist GB. This verifies the initial
+hypothesis that the model suffers from bias acclimatization,
+wherein elevated accuracy stems purely from guessing the
+majority class (retained employees) while utterly failing to
+recognize the minority class (turnover candidates).
+2. Significant Impact of SMOTE: Following the
+implementation of SMOTE in Scenario 2, a paradigm shift
+occurred. Although Test Accuracy dipped slightly to 0.66 (RF)
+and 0.66 (Hist GB), the Test F1-Score surged drastically to
+0.44 in Random Forest (SMOTE) and 0.42 in Hist GB
+(SMOTE). Furthermore, model stability indicated by CV
+Accuracy (Mean) rose sharply to 0.74 (74.47%) for Random
+Forest. This demonstrates that synthetic balancing forced the
+models to learn the mental workload characteristics of
+turnover-prone workers much more equitably.
+3. Model Optimization Peak: In the Optimized scenario,
+both algorithms exhibited divergent responses. Random Forest
+(Optimized) restored its accuracy back to a peak of 0.69 while
+minimizing Classification Error to 0.30. In contrast, Hist GB
+(Optimized) adopted an extreme trade-off: despite its test
+accuracy dropping to 0.61, it achieved an F1-Score Test peak
+of 0.52...
+JIIFKOM (Jurnal Ilmiah Informatika & Komputer) STTR Cepu Vol.5 No.2 (2026) Page 12
+
+PAGE 7
+(52.60%) while sustaining a robust AUC Score of 0.68.
+3.3 Classification Model Results Evaluation
+To thoroughly evaluate predictive decision efficacy, models
+were appraised using Confusion Matrices and Receiver
+Operating Characteristic Area Under the Curve (AUC-ROC).
+The confusion matrix evaluation measures predictive
+misclassification degrees relative to ground-truth reality,
+summarized conceptually in Table 3.
+Table 3. Proportional Representation of Optimized Model
+Confusion Matrices
+Model Algorithm TP TN FP FN
+Random Forest
+(Optimized)
+Very
+High
+Very
+High
+Very
+Low
+Very
+Minimal
+Hist GB (Optimized) High High Low Minimal
+A granular analysis of the matrices reveals contrasting
+predictive characteristics between both optimized models.
+Random Forest (Optimized) demonstrated lower sensitivity
+toward the minority class, evidenced by a high False Negative
+count—mispredicting 5,509 samples of employees actually
+intending to leave as staying.
+Conversely, Hist Gradient Boosting (Optimized)
+demonstrated superior performance in suppressing minority
+class misclassifications, yielding only 2,117 misclassified
+samples within the Leave class. Consequently, for retention
+triage workflows sensitive to the hazard of workforce loss,
+Hist GB (Optimized) provides a much safer strategic
+recommendation for organizational leadership.
+Furthermore, graphic visualization in Figure 4 displays
+discrimination curves across all tested scenarios. Based on the
+AUC-ROC plots, Hist GB exhibited a high score of 0.6820...
+RF (Base)
+13146 454
+5768 632
+RF (SMOTE)
+11100 2500
+4290 2110
+RF (Optimized)
+12941 659
+5509 891
+Hist GB (Base)
+13217 383
+5775 625
+Hist GB (SMOTE)
+11328 2272
+4360 2040
+Hist GB (Optimized)
+8027 5573
+2117 4283
+Figure 3. Confusion Matrix
+This evaluation is further visually reinforced by Figure 4,
+which represents the trade-off between True Positive Rate and
+False Positive Rate. Across these curve trajectories, Hist GB
+(Optimized) exhibits the most consistent linear separation
+boundary with an AUC Score of 0.68, followed closely by
+Random Forest (Optimized) at 0.6759. These curve trajectories
+substantiate that targeted hyperparameter tuning elevates the
+model's discriminative power in classifying worker retention
+dynamics continuously.
+JIIFKOM (Jurnal Ilmiah Informatika & Komputer) STTR Cepu Vol.5 No.2 (2026) Page 13
+
+PAGE 8
+AUC-ROC Curve Comparison Across All Scenarios
+0.0 0.2 0.4 0.8 1.0
+0.0
+0.5
+1.0
+False Positive Rate (FPR)
+True Positive Rate (TPR)
+— Random Forest (Base) (AUC = 0.6736)
+-- Random Forest (SMOTE) (AUC = 0.6649)
+— Random Forest (Optimized) (AUC = 0.6759)
+— Hist GB (Base) (AUC = 0.6820)
+— Hist GB (Optimized) (AUC = 0.6818)
+Figure 4. AUC-ROC Curves
+3.4 Feature Rank Analysis (Feature Importance Degree)
+To provide logical theoretical understanding regarding what
+factors drive model prediction decisions, feature importance
+degrees were extracted from the intrinsic
+feature_importances_ parameter of the top Random
+Forest model. The visualization of the top 12 features based on
+the feature rank graph is depicted sequentially in Figure 5.
+Based on the hierarchical feature visualization,
+psychological workload variables clearly occupy a far more
+dominant position than demographic or financial variables.
+As extracted via the Optimized Random Forest in Figure 5,
+the top three indicators primarily influencing employee
+turnover intention in order are total_mental_load
+(composite mental workload), followed by
+job_satisfaction_score, and burnout_score.
+This finding underscores that cumulative overall mental
+burden exerts a more immediate impact on psychological
+turnover decisions than isolated demographic indicators.
+Top 12 Feature Rank - Based on Optimized Random Forest
+total_mental_load
+job_satisfaction_score
+burnout_score
+work_hours_to_sleep_ratio
+salary_usd
+stress_score
+work_life_balance_score
+social_support_score
+manager_support_score
+autonomy_score
+deadline_pressure_score
+meetings_per_day
+0.00 0.05 0.10 0.15 0.20
+Importance Score
+Figure 5. Top Influential Features Based on Importance Score
+Moreover, this is substantiated by two engineered composite
+features: combined mental load (total_mental_load)
+and work-to-sleep ratio
+(work_hours_to_sleep_ratio), which successfully
+ranked among the top five most impactful features. This
+validates the effectiveness of the feature engineering pipeline
+designed in this study; chronic imbalance between professional
+commitment and biological recovery serves as a primary
+catalyst accelerating tech worker attrition.
+4. Conclusion
+Based on the experimental outcomes and comparative analyses
+conducted, it can be concluded that:
+1. The employee mental workload dataset exhibits severe
+class imbalance with a 68% (stay) to 32% (turnover intention)
+proportion, causing the Base scenario to yield computational
+bias characterized by pseudo accuracy (~69%) with a dismal
+F1-Score (~27%).
+2. Data balancing intervention utilizing SMOTE effectively
+rescues the model from majority class bias. The SMOTE-
+optimized Random Forest excelled in generalization stability
+with the highest Mean CV Accuracy of 74.47%.
+JIIFKOM (Jurnal Ilmiah Informatika & Komputer) STTR Cepu Vol.5 No.2 (2026) Page 14
+
+PAGE 9
+3. Conversely, the Hist Gradient Boosting (Optimized) model
+achieved the best minority class detection performance with
+the highest Test F1-Score of 52.60% while maintaining a solid
+AUC Score of 0.68, positioning it as the most sensitive
+architecture for capturing mental distress cues and turnover
+risks.
+Feature Importance extraction confirms that psychosocial
+variables such as burnout_score,
+deadline_pressure_score, and stress_score,
+along with engineered composite metrics
+(total_mental_load, job_satisfaction_score,
+and work_hours_to_sleep_ratio), are the primary
+predictive drivers determining tech industry employees'
+turnover decisions.
+REFERENCES
+Dataset:
+Thalla, M. K. (2026). Mental health and burnout in tech workers 2026
+[Dataset]. Kaggle.
+https://www.kaggle.com/datasets/mohankrishnathalla/mental-health-
+and-burnout-in-tech-workers-2026
+Journal Articles:
+Abdi, F., Abolmakarem, S., Yazdi, A. K., Leger, P., Tan, Y., & Coluccio, G.
+(2025). Predicting patients' revisit intention based on satisfaction
+scores: Combination of penalized regression and neural networks.
+IEEE Access, 13, 2785–2800.
+Ambrose, A. R. J., & Qayum, A. (2024). Enhancing worker well-being by
+utilising Data Analytics and Machine Learning approaches for fatigue
+detection (MSc research project). National College of Ireland, School
+of Computing.
+Bahman, N., & Lysenko, E. V. (2025). Employee performance evaluation
+using machine learning techniques in organizations (Master's thesis).
+Ural Federal University, Russia.
+Bakkeli, N. Z. (2023). Predicting psychological distress during the
+COVID-19 pandemic: Do socioeconomic factors matter? Social
+Science Computer Review, 41(4), 1227–1251.
+Celbis, M. G., Wong, P.-H., Kourtit, K., & Nijkamp, P. (2023). Job
+satisfaction and the 'Great Resignation': An exploratory machine
+learning analysis. Social Indicators Research, 170, 1097–1118.
+Fang, Y., Chen, M., & Shi, J. (2025). Construction of a predictive model
+for self realization and career satisfaction of university teachers based
+on text mining. Scientific Reports, 15, Article 43318.
+Guo, J., Huang, D., Wu, J., Mogouie, H., & Dicke, T. (2026). Predictive
+modelling of Australian school principals' turnover intentions using
+machine learning with random effects. Discover Computing, 29,
+Article 24.
+Han, L., Xian, P., Liu, X., Liu, Y., Chang, Y., Ma, L., ... Tang, H. (2025).
+AI-based precision prediction of healthcare workers' antibiotic use
+intentions: Multi-theoretical psychological and behavioral modeling
+(Research Square Preprint). doi:10.21203/rs.3.rs-6768023/v1
+Indriya, S., Fazlurrahman, H., & Fitro, A. (2024). Machine learning-based
+prediction of the impact of mental health policies on employee
+productivity. In Proceedings of the International Conference on
+Digital Business Innovation and Technology (ICONBIT), Surabaya.
+Jeong, H., Seong, H. H., Yang, S.-C., Park, S.-G., Hong, I., & Kim, H. D.
+(2025). Predicting the risk of burnout syndrome using Korean
+Occupational Stress Scale (KOSS): A machine learning approach.
+Safety and Health at Work, 16, 462–469.
+Ji, Z., Xie, X., Jiang, E., Wang, Y., Min, B., Yang, S., ... Pons, D. (2025).
+Integrating DRN-RF with computer vision for detection of control
+room operator's mental fatigue. PLoS ONE, 20(4), Article e0320780.
+Khalili, Y., Ahmadi, M., & Moraveji, K. M. (2025). Time-aware predictive
+maintenance of electrical submersible pumps using catboost ensemble
+learning and trend-based labeling. Journal of Petroleum Exploration
+and Production Technology, 15, Article 147.
+Kwon, S., Kim, L., Won, C. W., Kim, N., Chang, J. Y., Kim, M., & Kim,
+G. S. (2025). Predictive model development for possible sarcopenia in
+community-dwelling older adults: a cross-sectional machine learning
+approach using the Korean frailty and aging cohort study. BMC
+Geriatrics, 25, Article 987.
+Laksawut, S., & Narkbunnum, W. (2025). Calibrated turnover risk models
+for capacity constrained retention triage. Journal of Organizational
+Behavior Research, 10(4), 71–84.
+Lee, D., & Swain, V. D. (2026). Understanding behind the smile of
+emotion workers: Detecting after-call stress in call agents (Preprint).
+KAIST / NYU Tandon School of Engineering.
+Liu, K., Zhang, X., Jiang, Y., & Fan, L. (2025). A MLP based predictive
+model for risk assessment of workplace violence for emergency nurses
+in China. BMC Nursing, 24, Article 1468.
+JIIFKOM (Jurnal Ilmiah Informatika & Komputer) STTR Cepu Vol.5 No.2 (2026) Page 15
+
+PAGE 10
+Luo, N., Xu, X., Jiang, B., Zhang, Z., Huang, J., Zhang, X., ... Zhu, P.
+(2024). Explainable machine learning framework to predict the risk of
+work-related neck and shoulder musculoskeletal disorders among
+healthcare professionals. Frontiers in Public Health, 12, Article
+1414209.
+Melaku, M. S., Baykemagn, N. D., Yohannes, L., & Zegeye, A. T. (2025).
+Exploring explainable machine learning algorithms to model
+predictors of tobacco use among men in Sub Sahara Africa between
+2018 and 2023. Scientific Reports, 15, Article 24646.
+Mirhosseini, S. A., Chang, R., Omrany, H., Zou, Y., & Liu, Y. (2026).
+Application of machine learning technologies in predicting severity of
+heat-related illnesses among construction workers. Smart and
+Sustainable Built Environment, 15, 115–130.
+Mishra, A., Jatt, V., Sefene, E. M., Salunkhe, S., Cep, R., & Nasr, E. A.
+(2025). Supervised machine learning and physics machine learning
+approach for prediction of peak temperature distribution in additive
+friction stir deposition of aluminium alloy. PLoS ONE, 20(5), 845–
+860.
+JIIFKOM (Jurnal Ilmiah Informatika & Komputer) STTR Cepu Vol.5 No.2 (2026) Page 16

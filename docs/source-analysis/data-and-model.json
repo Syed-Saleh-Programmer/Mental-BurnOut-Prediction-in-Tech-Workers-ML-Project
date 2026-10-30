@@ -1,0 +1,348 @@
+{
+  "model_name": "HistGradientBoosting",
+  "optimal_threshold": 0.2535353535353535,
+  "cat_cols": [
+    "gender",
+    "country",
+    "job_role",
+    "seniority_level",
+    "company_size",
+    "industry",
+    "work_mode",
+    "phq9_category",
+    "gad7_category",
+    "burnout_level"
+  ],
+  "num_cols": [
+    "employee_id",
+    "age",
+    "years_experience",
+    "years_at_company",
+    "salary_usd",
+    "work_hours_per_week",
+    "meetings_per_day",
+    "team_size",
+    "sleep_hours_per_night",
+    "exercise_days_per_week",
+    "vacation_days_taken",
+    "therapy_access",
+    "uses_therapy",
+    "ai_tools_daily",
+    "manager_support_score",
+    "work_life_balance_score",
+    "job_satisfaction_score",
+    "social_support_score",
+    "deadline_pressure_score",
+    "autonomy_score",
+    "stress_score",
+    "burnout_score",
+    "phq9_score",
+    "gad7_score",
+    "seeks_mental_health_support",
+    "work_hours_to_sleep_ratio",
+    "total_mental_load"
+  ],
+  "expected_columns": [
+    "gender",
+    "country",
+    "job_role",
+    "seniority_level",
+    "company_size",
+    "industry",
+    "work_mode",
+    "phq9_category",
+    "gad7_category",
+    "burnout_level",
+    "employee_id",
+    "age",
+    "years_experience",
+    "years_at_company",
+    "salary_usd",
+    "work_hours_per_week",
+    "meetings_per_day",
+    "team_size",
+    "sleep_hours_per_night",
+    "exercise_days_per_week",
+    "vacation_days_taken",
+    "therapy_access",
+    "uses_therapy",
+    "ai_tools_daily",
+    "manager_support_score",
+    "work_life_balance_score",
+    "job_satisfaction_score",
+    "social_support_score",
+    "deadline_pressure_score",
+    "autonomy_score",
+    "stress_score",
+    "burnout_score",
+    "phq9_score",
+    "gad7_score",
+    "seeks_mental_health_support",
+    "work_hours_to_sleep_ratio",
+    "total_mental_load"
+  ],
+  "pipeline_type": "<class 'sklearn.calibration.CalibratedClassifierCV'>",
+  "shape": [
+    100000,
+    36
+  ],
+  "missing": {
+    "employee_id": 0,
+    "age": 0,
+    "gender": 0,
+    "country": 0,
+    "job_role": 0,
+    "seniority_level": 0,
+    "years_experience": 0,
+    "years_at_company": 0,
+    "company_size": 0,
+    "industry": 0,
+    "work_mode": 0,
+    "salary_usd": 0,
+    "work_hours_per_week": 0,
+    "meetings_per_day": 0,
+    "team_size": 0,
+    "sleep_hours_per_night": 0,
+    "exercise_days_per_week": 0,
+    "vacation_days_taken": 0,
+    "therapy_access": 0,
+    "uses_therapy": 0,
+    "ai_tools_daily": 0,
+    "manager_support_score": 0,
+    "work_life_balance_score": 0,
+    "job_satisfaction_score": 0,
+    "social_support_score": 0,
+    "deadline_pressure_score": 0,
+    "autonomy_score": 0,
+    "stress_score": 0,
+    "burnout_score": 0,
+    "phq9_score": 0,
+    "phq9_category": 0,
+    "gad7_score": 0,
+    "gad7_category": 0,
+    "burnout_level": 0,
+    "seeks_mental_health_support": 0,
+    "job_change_intention": 0
+  },
+  "categories": {
+    "gender": [
+      "Female",
+      "Male",
+      "Non-binary",
+      "Prefer not to say"
+    ],
+    "country": [
+      "Australia",
+      "Brazil",
+      "Canada",
+      "France",
+      "Germany",
+      "India",
+      "Netherlands",
+      "Singapore",
+      "UK",
+      "USA"
+    ],
+    "job_role": [
+      "Backend Developer",
+      "Cloud Engineer",
+      "Cybersecurity Engineer",
+      "Data Analyst",
+      "Data Scientist",
+      "DevOps Engineer",
+      "Frontend Developer",
+      "Full Stack Developer",
+      "ML Engineer",
+      "Product Manager",
+      "QA Engineer",
+      "Software Engineer"
+    ],
+    "seniority_level": [
+      "Junior",
+      "Lead",
+      "Manager",
+      "Mid",
+      "Principal",
+      "Senior"
+    ],
+    "company_size": [
+      "Enterprise (5000+)",
+      "Large (1001-5000)",
+      "Mid (201-1000)",
+      "Small (51-200)",
+      "Startup (1-50)"
+    ],
+    "industry": [
+      "AI / ML Startup",
+      "Consulting",
+      "Cybersecurity",
+      "E-commerce",
+      "Enterprise Software",
+      "Fintech",
+      "Gaming",
+      "Healthcare Tech",
+      "SaaS / Cloud",
+      "Social Media / AdTech"
+    ],
+    "work_mode": [
+      "Hybrid",
+      "On-site",
+      "Remote"
+    ],
+    "phq9_category": [
+      "Mild (5-9)",
+      "Moderate (10-14)",
+      "Moderately Severe (15-19)",
+      "None (0-4)",
+      "Severe (20-27)"
+    ],
+    "gad7_category": [
+      "Mild (5-9)",
+      "Minimal (0-4)",
+      "Moderate (10-14)",
+      "Severe (15-21)"
+    ],
+    "burnout_level": [
+      "High",
+      "Low",
+      "Moderate",
+      "Severe"
+    ]
+  },
+  "numeric_ranges": {
+    "employee_id": {
+      "min": 1.0,
+      "max": 100000.0,
+      "median": 50000.5
+    },
+    "age": {
+      "min": 22.0,
+      "max": 55.0,
+      "median": 31.0
+    },
+    "years_experience": {
+      "min": 0.0,
+      "max": 25.0,
+      "median": 9.0
+    },
+    "years_at_company": {
+      "min": 0.1,
+      "max": 15.0,
+      "median": 1.7
+    },
+    "salary_usd": {
+      "min": 40000.0,
+      "max": 267961.0,
+      "median": 76630.5
+    },
+    "work_hours_per_week": {
+      "min": 35.0,
+      "max": 72.0,
+      "median": 47.0
+    },
+    "meetings_per_day": {
+      "min": 0.0,
+      "max": 12.0,
+      "median": 4.0
+    },
+    "team_size": {
+      "min": 2.0,
+      "max": 59.0,
+      "median": 16.0
+    },
+    "sleep_hours_per_night": {
+      "min": 3.0,
+      "max": 10.0,
+      "median": 6.1
+    },
+    "exercise_days_per_week": {
+      "min": 0.0,
+      "max": 7.0,
+      "median": 3.0
+    },
+    "vacation_days_taken": {
+      "min": 0.0,
+      "max": 30.0,
+      "median": 12.0
+    },
+    "therapy_access": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0
+    },
+    "uses_therapy": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0
+    },
+    "ai_tools_daily": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 1.0
+    },
+    "manager_support_score": {
+      "min": 1.0,
+      "max": 10.0,
+      "median": 5.8
+    },
+    "work_life_balance_score": {
+      "min": 1.0,
+      "max": 10.0,
+      "median": 5.4
+    },
+    "job_satisfaction_score": {
+      "min": 1.0,
+      "max": 10.0,
+      "median": 4.8
+    },
+    "social_support_score": {
+      "min": 1.0,
+      "max": 10.0,
+      "median": 5.4
+    },
+    "deadline_pressure_score": {
+      "min": 1.0,
+      "max": 10.0,
+      "median": 6.4
+    },
+    "autonomy_score": {
+      "min": 1.0,
+      "max": 10.0,
+      "median": 5.8
+    },
+    "stress_score": {
+      "min": 1.0,
+      "max": 10.0,
+      "median": 7.1
+    },
+    "burnout_score": {
+      "min": 0.0,
+      "max": 10.0,
+      "median": 5.4
+    },
+    "phq9_score": {
+      "min": 0.0,
+      "max": 27.0,
+      "median": 6.0
+    },
+    "gad7_score": {
+      "min": 0.0,
+      "max": 21.0,
+      "median": 5.0
+    },
+    "seeks_mental_health_support": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0
+    },
+    "job_change_intention": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0
+    }
+  },
+  "target_counts": {
+    "0": 67998,
+    "1": 32002
+  }
+}

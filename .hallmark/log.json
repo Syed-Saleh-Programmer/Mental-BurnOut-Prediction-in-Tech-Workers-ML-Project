@@ -1,0 +1,18 @@
+[
+  {
+    "scope": "app",
+    "shape": "app screen",
+    "theme": "coral",
+    "genre": "modern-minimal",
+    "nav": "top workspace tabs",
+    "footer": "research context and model connection",
+    "signature": "Observed burnout distribution paired with an actual model assessment",
+    "sections": ["overview", "individual assessment", "batch predictions", "dataset explorer", "model and research"],
+    "imagery": "Real data charts and actual application screenshots",
+    "waived": ["28b: supplied video opens on request below research table, with no poster asset"],
+    "sweep": "0 FAIL, 0 WARN; render tier unavailable; Playwright Chrome screenshots inspected",
+    "review": "In-thread review; mobile filename wrapping and scroll containment fixed",
+    "tool_limit": "Theme scaffold could not parse the installed coral theme header; tokens and base styles authored directly.",
+    "prompt": "Build frontend and FastAPI backend connected to the supplied mental burnout and turnover project for HR and people analytics teams."
+  }
+]

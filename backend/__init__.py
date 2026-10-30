@@ -1,0 +1,1 @@
+"""Workwell FastAPI application."""
