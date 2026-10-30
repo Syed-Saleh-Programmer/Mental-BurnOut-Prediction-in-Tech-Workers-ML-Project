@@ -16,6 +16,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from starlette.concurrency import run_in_threadpool
 
 from backend.service import DATA_FILE, ROOT, ProjectService
+from backend.paths import FRONTEND_DIR, RESOURCE_PATHS
 from backend.self_assessment import router as self_assessment_router
 from backend.hr import router as hr_router, TemporaryStore
 
@@ -199,19 +200,19 @@ def research():
     return service().research()
 
 
-RESOURCE_FILES = {p.name for p in ROOT.iterdir() if p.suffix in ['.pdf', '.mp4', '.ipynb']}
+RESOURCE_FILES = RESOURCE_PATHS
 
 
 @app.get('/resources/{filename}')
 def resource(filename: str):
     if filename not in RESOURCE_FILES:
         raise HTTPException(404, detail='Resource not found.')
-    return FileResponse(ROOT / filename)
+    return FileResponse(RESOURCE_FILES[filename])
 
 
 # Production serves the React build and API on the same origin.
-if (ROOT / 'dist' / 'assets').exists():
-    app.mount('/assets', StaticFiles(directory=ROOT / 'dist' / 'assets'), name='assets')
+if (FRONTEND_DIR / 'dist' / 'assets').exists():
+    app.mount('/assets', StaticFiles(directory=FRONTEND_DIR / 'dist' / 'assets'), name='assets')
 
 
 @app.get('/', include_in_schema=False)
@@ -220,7 +221,7 @@ if (ROOT / 'dist' / 'assets').exists():
 @app.get('/individual', include_in_schema=False)
 @app.get('/individual/{ui_path:path}', include_in_schema=False)
 def frontend():
-    path = ROOT / 'dist' / 'index.html'
+    path = FRONTEND_DIR / 'dist' / 'index.html'
     if not path.exists():
-        return JSONResponse(status_code=503, content={'detail': 'Frontend not built. Run npm install and npm run build, then restart the server. The API is available at /docs.'})
+        return JSONResponse(status_code=503, content={'detail': 'Frontend not built. Run npm --prefix frontend ci and npm --prefix frontend run build, then restart the server. The API is available at /docs.'})
     return FileResponse(path)

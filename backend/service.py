@@ -4,7 +4,6 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-from pathlib import Path
 from typing import Any
 
 import joblib
@@ -13,7 +12,7 @@ import pandas as pd
 from pydantic import ConfigDict, Field, create_model
 from threadpoolctl import threadpool_limits
 
-ROOT = Path(__file__).resolve().parents[1]
+from backend.paths import ROOT, DATASET_PATH, MODEL_PATH, NOTEBOOK_PATH, RESOURCE_PATHS
 TARGET = 'job_change_intention'
 DATA_FILE = 'mental_health_burnout_tech_2026.csv'
 NOTEBOOK = 'Mental_burnut_and_turn_over_latest.ipynb'
@@ -29,9 +28,9 @@ LABELS = {'employee_id': 'Reference ID', 'salary_usd': 'Annual salary (USD)', 'p
 
 class ProjectService:
     def __init__(self):
-        self.df = pd.read_csv(ROOT / DATA_FILE)
+        self.df = pd.read_csv(DATASET_PATH)
         # Only the project's local artifact is loaded. Uploads never accept models.
-        self.artifact = joblib.load(ROOT / 'turnover_pipeline.pkl')
+        self.artifact = joblib.load(MODEL_PATH)
         self.pipeline = self.artifact['pipeline']
         self.threshold = float(self.artifact['optimal_threshold'])
         self.raw_columns = [c for c in self.df if c != TARGET]
@@ -64,7 +63,7 @@ class ProjectService:
         missing = set(self.artifact['expected_columns']) - set(self.prepare(self.df.head(1)).columns)
         if missing:
             raise RuntimeError(f'Missing model features: {sorted(missing)}')
-        self.model_hash = hashlib.sha256((ROOT / 'turnover_pipeline.pkl').read_bytes()).hexdigest()
+        self.model_hash = hashlib.sha256(MODEL_PATH.read_bytes()).hexdigest()
 
     def prepare(self, data: pd.DataFrame) -> pd.DataFrame:
         """Reproduce prepare_features from notebook cell 4, including its naming issue."""
@@ -148,7 +147,7 @@ class ProjectService:
         }
 
     def research(self) -> dict:
-        notebook = json.loads((ROOT / NOTEBOOK).read_text(encoding='utf-8'))
+        notebook = json.loads(NOTEBOOK_PATH.read_text(encoding='utf-8'))
         outputs = {}
         for i in [1, 2, 6]:
             outputs[i] = ''.join(''.join(o.get('text', [])) for o in notebook['cells'][i].get('outputs', []) if o.get('name') == 'stdout')
@@ -159,9 +158,7 @@ class ProjectService:
             for name, values in zip(names, matches):
                 models.append({'name': name, 'accuracy': float(values[0]), 'f1': float(values[1]), 'auc': float(values[2]), 'selected': name == 'HistGB optimized', 'source': 'Notebook saved outputs', 'test_size': 15000 if cell == 6 else 20000})
         files = []
-        for path in sorted(ROOT.iterdir()):
-            if path.suffix.lower() not in ['.pdf', '.ipynb', '.csv', '.pkl', '.mp4']:
-                continue
+        for path in sorted([DATASET_PATH, MODEL_PATH, *RESOURCE_PATHS.values()]):
             files.append({'name': path.name, 'kind': path.suffix[1:].upper(), 'bytes': path.stat().st_size, 'url': f'/resources/{path.name}' if path.suffix in ['.pdf', '.mp4', '.ipynb'] else None})
         return {'models': models, 'files': files, 'model_name': self.artifact['model_name'], 'threshold': self.threshold, 'model_sha256': self.model_hash, 'features': len(self.artifact['expected_columns']), 'raw_features': len(self.raw_columns), 'limitations': [
             'The target is self-reported intention to change jobs, not observed employee departure or a clinical diagnosis.',

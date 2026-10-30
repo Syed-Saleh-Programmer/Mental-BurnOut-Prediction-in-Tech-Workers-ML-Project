@@ -11,3 +11,7 @@ playwright-report/
 !.env.example
 *.log
 tmp/
+
+.tmp/
+output/
+.hallmark/

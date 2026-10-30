@@ -6,7 +6,7 @@ Workwell turns a mental workload and turnover research project into two web expe
 
 **Two workspaces · CSV and Excel analysis · Interactive charts · Original model inference · CBI self-assessment**
 
-![Workwell landing page with Individual and HR Dashboard choices](docs/screenshots/landing.png)
+![Workwell landing page with Individual and HR Dashboard choices](doc/screenshots/landing.png)
 
 > **Understanding the outputs:** the saved machine learning model estimates **self-reported job-change intention**. The individual check-in measures **current work-related exhaustion using the CBI**. What-if targets compare chosen inputs and leave the measured score unchanged. These outputs do not establish actual departure, a clinical diagnosis, or future burnout probability.
 
@@ -68,7 +68,7 @@ These are **screenshots of the running application**, captured through its real 
 
 ### HR dashboard: actual research sample
 
-![Live HR dashboard with 5,000 analyzed profiles, reported burnout distribution, role comparisons, and stress chart](docs/screenshots/hr-dashboard.png)
+![Live HR dashboard with 5,000 analyzed profiles, reported burnout distribution, role comparisons, and stress chart](doc/screenshots/hr-dashboard.png)
 
 | Indicator in this screenshot sample | Value | Responses |
 | --- | ---: | ---: |
@@ -80,12 +80,12 @@ These are **screenshots of the running application**, captured through its real 
 | Reported job-change intention | 31.06% | 5,000 |
 | Classified as job-change intention by the saved model | 61.90% | 5,000 eligible profiles |
 
-The last row is the fraction classified positive at the saved **25.35% probability threshold**, not the mean predicted probability or an observed departure rate. Its difference from reported intention reflects model errors and the chosen operating threshold. These sample figures differ from the full-dataset statistics below. Capture details and exact counts are recorded in [screenshot provenance](docs/screenshots/provenance.json).
+The last row is the fraction classified positive at the saved **25.35% probability threshold**, not the mean predicted probability or an observed departure rate. Its difference from reported intention reflects model errors and the chosen operating threshold. These sample figures differ from the full-dataset statistics below. Capture details and exact counts are recorded in [screenshot provenance](doc/screenshots/provenance.json).
 
 <details>
 <summary>View the HR employee explorer</summary>
 
-![HR employee explorer showing actual demo records, search, sorting, and model outputs](docs/screenshots/hr-employees.png)
+![HR employee explorer showing actual demo records, search, sorting, and model outputs](doc/screenshots/hr-employees.png)
 
 The list and employee detail pages use the same selected analysis as the dashboard.
 
@@ -93,32 +93,32 @@ The list and employee detail pages use the same selected analysis as the dashboa
 
 ### Individual check-in
 
-![Individual interface with guided work-related burnout questions](docs/screenshots/individual-check-in.png)
+![Individual interface with guided work-related burnout questions](doc/screenshots/individual-check-in.png)
 
 ### Individual summary
 
-![Individual summary showing a current CBI score of 64.3 out of 100 and optional wellbeing indicators](docs/screenshots/individual-summary.png)
+![Individual summary showing a current CBI score of 64.3 out of 100 and optional wellbeing indicators](doc/screenshots/individual-summary.png)
 
 The illustrative answers produce **64.29/100**, displayed as **64.3**. Optional ratings and hour values are reported separately from the CBI score.
 
 <details>
 <summary>View the what-if explorer and mobile interface</summary>
 
-![What-if explorer comparing current and target indicators while preserving the current CBI score](docs/screenshots/individual-what-if.png)
+![What-if explorer comparing current and target indicators while preserving the current CBI score](doc/screenshots/individual-what-if.png)
 
 Targets in this example change sleep from 5.5 to 7.5 hours and working time from 52 to 40 hours per week. The current measured CBI score stays unchanged.
 
-<img src="docs/screenshots/individual-mobile.png" alt="Workwell individual check-in at a 390-pixel mobile viewport" width="390" />
+<img src="doc/screenshots/individual-mobile.png" alt="Workwell individual check-in at a 390-pixel mobile viewport" width="390" />
 
 </details>
 
 To reproduce the images, start the development servers and run:
 
 ```powershell
-node scripts/capture_readme.mjs
+node frontend/scripts/capture_readme.mjs
 ```
 
-The script uses installed Google Chrome and defaults to `http://127.0.0.1:5173`. Set `WORKWELL_URL` to capture a different local instance. Images live in [docs/screenshots](docs/screenshots); capture does not change application source or train a model.
+The script uses installed Google Chrome and defaults to `http://127.0.0.1:5173`. Set `WORKWELL_URL` to capture a different local instance. Images live in [doc/screenshots](doc/screenshots); capture does not change application source or train a model.
 
 ## Quick start
 
@@ -126,7 +126,7 @@ The script uses installed Google Chrome and defaults to `http://127.0.0.1:5173`.
 
 - **Node.js 22.12+** and npm; Node.js 24 is also suitable.
 - **Python 3.10–3.13**, with **3.12 recommended** for the supplied model environment.
-- The seven [original research assets](#original-research-assets) in the project root.
+- The seven [original research assets](#original-research-assets) in their supplied `data/` and `doc/` subfolders.
 - Google Chrome for browser tests and the screenshot script.
 
 The model is pinned to **scikit-learn 1.6.1**. Python 3.14 is outside this project's supported model environment. Saved scikit-learn objects require compatible dependencies; see the official [model persistence documentation](https://scikit-learn.org/1.6/model_persistence.html).
@@ -139,7 +139,7 @@ From the project directory:
 .\start.ps1
 ```
 
-Alternatively, double-click [start.cmd](start.cmd). The script creates `.venv` if needed, installs backend dependencies, installs frontend packages when absent, builds the UI, and starts FastAPI.
+Alternatively, double-click [start.cmd](start.cmd). The script creates `backend/.venv` if needed, installs backend dependencies, installs frontend packages when absent, builds the UI, and starts FastAPI.
 
 | Service | URL |
 | --- | --- |
@@ -165,26 +165,26 @@ Keep the terminal open; press **Ctrl+C** to stop. Useful options:
 Install dependencies once:
 
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
-npm ci
+python -m venv backend/.venv
+.\backend\.venv\Scripts\python.exe -m pip install -r backend/requirements-dev.txt
+npm --prefix frontend ci
 ```
 
 **Terminal 1 — FastAPI, with backend reload:**
 
 ```powershell
-.\.venv\Scripts\python.exe -m uvicorn backend.main:app --reload --reload-dir backend --host 127.0.0.1 --port 8000
+.\backend\.venv\Scripts\python.exe -m uvicorn backend.main:app --reload --reload-dir backend --host 127.0.0.1 --port 8000
 ```
 
 **Terminal 2 — Vite, with frontend hot reload:**
 
 ```powershell
-npm run dev -- --port 5173 --strictPort
+npm --prefix frontend run dev -- --port 5173 --strictPort
 ```
 
-Open **http://127.0.0.1:5173**. Vite proxies `/api` and `/resources` to FastAPI on port 8000. The frontend needs no API keys or external font service. For combined serving, run `npm run build` before starting FastAPI so it can mount `dist/assets`.
+Open **http://127.0.0.1:5173**. Vite proxies `/api` and `/resources` to FastAPI on port 8000. The frontend needs no API keys or external font service. For combined serving, run `npm --prefix frontend run build` before starting FastAPI so it can mount `frontend/dist/assets`.
 
-On macOS/Linux, create the environment with `python3 -m venv .venv` and substitute `.venv/bin/python` for `.venv\Scripts\python.exe`. The Windows startup scripts are platform-specific.
+On macOS/Linux, create the environment with `python3 -m venv backend/.venv` and substitute `backend/.venv/bin/python` for `backend\.venv\Scripts\python.exe`. The Windows startup scripts are platform-specific.
 
 ### Optional container
 
@@ -203,9 +203,9 @@ Pages builds use the correct repository asset path and hash routes such as `/#/h
 
 **GitHub Pages hosts the frontend only.** There is no public backend URL configured yet. Live HR analysis, individual assessment results, predictions, and research downloads require a separately hosted FastAPI service. When it is available, add the public HTTPS URL as the repository Actions variable **`WORKWELL_BACKEND_URL`** and set **`WORKWELL_ALLOWED_ORIGINS`** on that backend to the Pages origin. Rebuild after changing the frontend URL.
 
-See [GitHub Pages setup](docs/GITHUB_PAGES.md) for the one-time settings, backend connection, permissions, URLs, and troubleshooting. The workflow follows the official [Vite Pages guidance](https://vite.dev/guide/static-deploy#github-pages) and [GitHub custom workflow documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
+See [GitHub Pages setup](doc/GITHUB_PAGES.md) for the one-time settings, backend connection, permissions, URLs, and troubleshooting. The workflow follows the official [Vite Pages guidance](https://vite.dev/guide/static-deploy#github-pages) and [GitHub custom workflow documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
 
-The frontend uses GitHub Pages' default address, **`https://OWNER.github.io/REPOSITORY/`**. No custom domain or DNS configuration is needed. Leave **Custom domain** empty in repository Pages settings; see the [default URL instructions](docs/GITHUB_PAGES.md#use-the-default-github-pages-url).
+The frontend uses GitHub Pages' default address, **`https://OWNER.github.io/REPOSITORY/`**. No custom domain or DNS configuration is needed. Leave **Custom domain** empty in repository Pages settings; see the [default URL instructions](doc/GITHUB_PAGES.md#use-the-default-github-pages-url).
 
 ## Using the application
 
@@ -234,7 +234,7 @@ Results and the explorer require a completed assessment. Direct links without cu
 
 ## Dataset and data dictionary
 
-The local [mental_health_burnout_tech_2026.csv](mental_health_burnout_tech_2026.csv) contains **100,000 records and 36 columns**: **35 raw inputs plus `job_change_intention`**. The paper attributes the source dataset to **Mohan Krishna Thalla**, *Mental Health & Burnout in Tech Workers 2026*, on [Kaggle](https://www.kaggle.com/datasets/mohankrishnathalla/mental-health-and-burnout-in-tech-workers-2026). The supplied methodological report describes it as synthetic; the app does not independently establish its collection process or treat it as a live organization's workforce. See [project analysis](docs/PROJECT_ANALYSIS.md) and the [supplied report](Broad%20Research%20for%20Improving%20Turnover%20Prediction%20Models.pdf).
+The local [mental_health_burnout_tech_2026.csv](data/datasets/mental_health_burnout_tech_2026.csv) contains **100,000 records and 36 columns**: **35 raw inputs plus `job_change_intention`**. The paper attributes the source dataset to **Mohan Krishna Thalla**, *Mental Health & Burnout in Tech Workers 2026*, on [Kaggle](https://www.kaggle.com/datasets/mohankrishnathalla/mental-health-and-burnout-in-tech-workers-2026). The supplied methodological report describes it as synthetic; the app does not independently establish its collection process or treat it as a live organization's workforce. See [project analysis](doc/PROJECT_ANALYSIS.md) and the [supplied report](doc/research/Broad%20Research%20for%20Improving%20Turnover%20Prediction%20Models.pdf).
 
 ### Full-dataset profile
 
@@ -252,7 +252,7 @@ The local [mental_health_burnout_tech_2026.csv](mental_health_burnout_tech_2026.
 | Mean nightly sleep | 6.1024 hours |
 | Mean weekly working time | 47.1041 hours |
 
-These figures describe the complete CSV. They are descriptive observations, not model outputs, clinical prevalence estimates, or the smaller screenshot sample. Source metadata is available in [data-and-model.json](docs/source-analysis/data-and-model.json).
+These figures describe the complete CSV. They are descriptive observations, not model outputs, clinical prevalence estimates, or the smaller screenshot sample. Source metadata is available in [data-and-model.json](doc/source-analysis/data-and-model.json).
 
 | Reported source burnout category | Records | Share |
 | --- | ---: | ---: |
@@ -274,15 +274,15 @@ Source category labels are retained as reported; they are not CBI diagnostic cat
 | Work experience | Balance, satisfaction, deadline pressure, autonomy, stress, burnout |
 | Supplied questionnaire indicators | PHQ-9/GAD-7 scores and categories, reported burnout category |
 
-The [complete data dictionary](docs/DATA_DICTIONARY.md) lists **every column**, its stored type, role, observed range or categories, optional HR-only fields, and the engineered features. PHQ-9/GAD-7 fields are supplied model inputs; the individual interface does not administer those questionnaires or infer their values.
+The [complete data dictionary](doc/DATA_DICTIONARY.md) lists **every column**, its stored type, role, observed range or categories, optional HR-only fields, and the engineered features. PHQ-9/GAD-7 fields are supplied model inputs; the individual interface does not administer those questionnaires or infer their values.
 
 ## Research and model methodology
 
-The research compares **Random Forest (RF)** and **Histogram-based Gradient Boosting (HistGB)** for job-change intention using mental workload indicators. The original work is credited to **Yelmi, Kusrini, and Indra Gunawan**, published in *JIIFKOM*, **5(2), 7–16 (2026)**. See the [publisher record](https://jiifkom.utrcepu.ac.id/index.php/jiifkom/article/view/725), [DOI](https://doi.org/10.51901/jiifkom.v5i02.725), and [supplied English rendering](Comparative%20Analysis%20of%20Tuned%20Random%20Forest%20and%20Hist%20Gradient%20Boosting.pdf). The application implementation is separate from authorship of those materials.
+The research compares **Random Forest (RF)** and **Histogram-based Gradient Boosting (HistGB)** for job-change intention using mental workload indicators. The original work is credited to **Yelmi, Kusrini, and Indra Gunawan**, published in *JIIFKOM*, **5(2), 7–16 (2026)**. See the [publisher record](https://jiifkom.utrcepu.ac.id/index.php/jiifkom/article/view/725), [DOI](https://doi.org/10.51901/jiifkom.v5i02.725), and [supplied English rendering](doc/research/Comparative%20Analysis%20of%20Tuned%20Random%20Forest%20and%20Hist%20Gradient%20Boosting.pdf). The application implementation is separate from authorship of those materials.
 
 ### Experimental workflow
 
-The [notebook](Mental_burnut_and_turn_over_latest.ipynb) records baseline RF/HistGB experiments with an 80/20 stratified split, followed by SMOTE comparisons. Its optimized stage uses:
+The [notebook](data/notebooks/Mental_burnut_and_turn_over_latest.ipynb) records baseline RF/HistGB experiments with an 80/20 stratified split, followed by SMOTE comparisons. Its optimized stage uses:
 
 1. Dynamic categorical detection, dense one-hot encoding, and numeric passthrough.
 2. A stratified split of **69,997 training**, **15,003 validation**, and **15,000 test** records, with random state 42.
@@ -304,13 +304,13 @@ Training is not performed at app startup. The backend loads the supplied artifac
 | HistGB optimized | 56.85% | 53.99% | 0.6859 | 15,000 |
 | Random Forest optimized | 55.96% | 53.69% | 0.6807 | 15,000 |
 
-**Source:** saved outputs in the [notebook](Mental_burnut_and_turn_over_latest.ipynb), parsed by [backend/service.py](backend/service.py). Baseline/SMOTE and optimized experiments use different test partitions, so this is not a controlled comparison on a shared holdout. The paper reports optimized HistGB F1 of **52.60%**; the notebook and artifact reproduce **53.99%**. Those separate results are not substituted for one another.
+**Source:** saved outputs in the [notebook](data/notebooks/Mental_burnut_and_turn_over_latest.ipynb), parsed by [backend/service.py](backend/service.py). Baseline/SMOTE and optimized experiments use different test partitions, so this is not a controlled comparison on a shared holdout. The paper reports optimized HistGB F1 of **52.60%**; the notebook and artifact reproduce **53.99%**. Those separate results are not substituted for one another.
 
 ### Saved model and reproduced evaluation
 
 | Item | Value |
 | --- | --- |
-| Artifact | [turnover_pipeline.pkl](turnover_pipeline.pkl) |
+| Artifact | [turnover_pipeline.pkl](data/models/turnover_pipeline.pkl) |
 | Selected estimator | Calibrated HistGradientBoosting |
 | Serialization | Joblib dictionary containing pipeline, feature lists, and threshold |
 | scikit-learn version | 1.6.1 |
@@ -321,7 +321,7 @@ Training is not performed at app startup. The backend loads the supplied artifac
 | Reproduced F1 | 0.5399104414 |
 | Reproduced ROC AUC | 0.6858837214 |
 
-The [verification script](scripts/verify_model.py) evaluates the saved artifact on the reconstructed original test partition **without retraining**. Exact values and artifact SHA-256 are in [verified-model.json](docs/source-analysis/verified-model.json).
+The [verification script](backend/scripts/verify_model.py) evaluates the saved artifact on the reconstructed original test partition **without retraining**. Exact values and artifact SHA-256 are in [verified-model.json](doc/source-analysis/verified-model.json).
 
 | Actual / predicted | Predicted stay intention | Predicted job-change intention |
 | --- | ---: | ---: |
@@ -346,7 +346,7 @@ existing = [name for name in mental_components if name in df.columns]
 df["total_mental_load"] = df[existing].sum(axis=1)
 ```
 
-Only `stress_score` exists under those exact names in the CSV, so **`total_mental_load` equals `stress_score`** for this artifact. This naming defect is preserved to match training; correcting it requires a new training run and artifact. See [serving code](backend/service.py) and [research analysis](docs/PROJECT_ANALYSIS.md).
+Only `stress_score` exists under those exact names in the CSV, so **`total_mental_load` equals `stress_score`** for this artifact. This naming defect is preserved to match training; correcting it requires a new training run and artifact. See [serving code](backend/service.py) and [research analysis](doc/PROJECT_ANALYSIS.md).
 
 Other material limits are:
 
@@ -377,7 +377,7 @@ For the screenshot example, six items contribute 75 points and the reversed ener
 
 The result is a continuous exhaustion score. The app does not introduce clinical severity categories. Reflection prompts use disclosed rules and are not validated diagnostic cutoffs or predicted treatment effects. WHO describes burnout as an [occupational phenomenon](https://www.who.int/standards/classifications/frequently-asked-questions/burn-out-an-occupational-phenomenon); this app supports reflection rather than clinical assessment.
 
-The what-if API returns current entries, target entries, arithmetic differences when both are supplied, and practical prompts. It does not change CBI answers or call the turnover model. See [assessment methodology](docs/SELF_ASSESSMENT.md) and [backend/self_assessment.py](backend/self_assessment.py).
+The what-if API returns current entries, target entries, arithmetic differences when both are supplied, and practical prompts. It does not change CBI answers or call the turnover model. See [assessment methodology](doc/SELF_ASSESSMENT.md) and [backend/self_assessment.py](backend/self_assessment.py).
 
 **Required CBI attribution:** Borritz M et al. *Burnout among employees in human service work: design and baseline findings of the PUMA study.* Scandinavian Journal of Public Health. 2006;34:49–58. [Publisher / DOI](https://journals.sagepub.com/doi/10.1080/14034940510032275).
 
@@ -410,32 +410,48 @@ flowchart TD
 | Testing | pytest API tests and Playwright with Chrome |
 | Packaging | npm lockfile, Python requirements, optional Dockerfile |
 
-The production build and API share one origin. Vite uses a development proxy. Original research data stays separate from uploads; individual answers stay separate from both. See [workspace architecture](docs/WORKSPACES.md) for state, routes, and lifecycle details.
+The production build and API share one origin. Vite uses a development proxy. Original research data stays separate from uploads; individual answers stay separate from both. See [workspace architecture](doc/WORKSPACES.md) for state, routes, and lifecycle details.
 
 ### Repository layout
 
 ```text
 backend/
-  main.py                  FastAPI app, original APIs, resources, SPA serving
+  .venv/                   Local Python environment (ignored)
+  requirements*.txt        Backend dependencies and verification lockfile
+  main.py                  FastAPI app, resources, and SPA serving
   hr.py                    Imports, temporary analyses, cohorts, exports
   self_assessment.py       CBI scoring and what-if comparisons
   service.py               Dataset, model, preprocessing, research metadata
-frontend/src/
-  App.tsx                  Landing, routing, legacy redirects
-  HrWorkspace.tsx          HR layout and routes
-  HrPages.tsx              Dashboard, importer, employee list/detail
-  HrContext.tsx            Active temporary analysis reference
-  IndividualWorkspace.tsx Individual layout, routes, what-if explorer
-  IndividualContext.tsx   In-memory answers and results
-  SelfAssessment.tsx      Questionnaire and personal summary
-docs/
-  screenshots/            README captures and provenance
-  source-analysis/        Extracted paper text and artifact metadata
-scripts/                  Inspection, evaluation, screenshot tools
-tests/                    API tests, browser scenarios, Excel fixture
+  paths.py                 Asset and frontend build paths
+  scripts/                 Research inspection and model evaluation
+  tests/                   API and CORS tests
+frontend/
+  package.json             Frontend commands and dependencies
+  vite.config.ts           Vite build and development proxy
+  playwright.config.ts     Browser test configuration
+  src/                     Landing, HR, individual, and research interfaces
+  scripts/                 Screenshot capture and static-host checks
+  tests/                   Browser scenarios
+  dist/                    Generated production build (ignored)
+  node_modules/            Installed frontend dependencies (ignored)
+data/
+  datasets/                Original research CSV
+  models/                  Original saved turnover pipeline
+  notebooks/               Original research notebook
+  fixtures/                Excel import test data
+doc/
+  Research Novelty.md       Proposed research extension
+  research/                Original research PDFs
+  media/                   Original explainer video
+  screenshots/             README captures and provenance
+  source-analysis/         Extracted paper text and artifact metadata
+.github/workflows/         GitHub Pages automation
+README.md                  Project overview and entry point
+start.ps1 / start.cmd      Shared Windows startup
+Dockerfile                 Combined frontend/backend container
 ```
 
-Dependencies are declared in [package.json](package.json), [package-lock.json](package-lock.json), [requirements.txt](requirements.txt), and [requirements-lock.txt](requirements-lock.txt). Test/inspection tools are in [requirements-dev.txt](requirements-dev.txt). The original notebook has additional training dependencies and Colab-specific cells; normal startup does not execute it.
+Dependencies are declared in [package.json](frontend/package.json), [package-lock.json](frontend/package-lock.json), [requirements.txt](backend/requirements.txt), and [requirements-lock.txt](backend/requirements-lock.txt). Test/inspection tools are in [requirements-dev.txt](backend/requirements-dev.txt). The original notebook has additional training dependencies and Colab-specific cells; normal startup does not execute it.
 
 ## API reference
 
@@ -484,7 +500,7 @@ Original cohort APIs accept `work_mode`, `country`, and `job_role`. Uploaded ana
 
 ## Testing and reproducibility
 
-Observed local verification is documented in [VERIFICATION.md](docs/VERIFICATION.md):
+Observed local verification is documented in [VERIFICATION.md](doc/VERIFICATION.md):
 
 | Check | Verified result |
 | --- | --- |
@@ -499,52 +515,53 @@ Observed local verification is documented in [VERIFICATION.md](docs/VERIFICATION
 Run from the project root:
 
 ```powershell
-.\.venv\Scripts\python.exe -m pytest tests/test_api.py tests/test_hr.py tests/test_cors.py -q
-.\.venv\Scripts\python.exe -m pip check
-npm run build
+.\backend\.venv\Scripts\python.exe -m pytest backend/tests/test_api.py backend/tests/test_hr.py backend/tests/test_cors.py -q
+.\backend\.venv\Scripts\python.exe -m pip check
+npm --prefix frontend run build
 
 # With the production build served by FastAPI on port 8000:
-npm run test:e2e
+npm --prefix frontend run test:e2e
 
 # Reproduce the artifact's original test-partition evaluation:
-.\.venv\Scripts\python.exe scripts/verify_model.py
+.\backend\.venv\Scripts\python.exe backend/scripts/verify_model.py
 
 # Regenerate metadata and PDF text without executing notebook training:
-.\.venv\Scripts\python.exe scripts/inspect_project.py
+.\backend\.venv\Scripts\python.exe backend/scripts/inspect_project.py
 ```
 
-[API tests](tests/test_api.py) cover model parity, validation, source analytics, resources, and CBI scoring. [HR tests](tests/test_hr.py) cover imports, row acceptance, missing-aware statistics, Excel worksheets, units, limits, exports, expiry/eviction, and scenario arithmetic. [Browser tests](tests/browser) exercise imports, filtering, profiles, downloads, error recovery, role isolation, refresh behavior, and individual targets.
+[API tests](backend/tests/test_api.py) cover model parity, validation, source analytics, resources, and CBI scoring. [HR tests](backend/tests/test_hr.py) cover imports, row acceptance, missing-aware statistics, Excel worksheets, units, limits, exports, expiry/eviction, and scenario arithmetic. [Browser tests](frontend/tests) exercise imports, filtering, profiles, downloads, error recovery, role isolation, refresh behavior, and individual targets.
 
-Browser tests use installed Chrome. To use Playwright Chromium, install it and adjust `channel` in [playwright.config.ts](playwright.config.ts). Model reproduction is an existing evaluation, not a new training experiment or external holdout.
+Browser tests use installed Chrome. To use Playwright Chromium, install it and adjust `channel` in [playwright.config.ts](frontend/playwright.config.ts). Model reproduction is an existing evaluation, not a new training experiment or external holdout.
 
 ## Research files and documentation
 
 ### Original research assets
 
-Keep these files in the repository root; the app resolves them by their existing names.
+Keep these files in their linked `data/` and `doc/` locations. Backend paths are resolved from the repository location, independent of the terminal working directory. Original filenames and contents are retained.
 
 | Asset | Role |
 | --- | --- |
-| [mental_health_burnout_tech_2026.csv](mental_health_burnout_tech_2026.csv) | Full 100,000-record dataset |
-| [turnover_pipeline.pkl](turnover_pipeline.pkl) | Calibrated HistGB artifact, expected features, threshold |
-| [Mental_burnut_and_turn_over_latest.ipynb](Mental_burnut_and_turn_over_latest.ipynb) | Training/preprocessing code and six recorded experiments |
-| [Comparative Analysis of Tuned Random Forest and Hist Gradient Boosting.pdf](Comparative%20Analysis%20of%20Tuned%20Random%20Forest%20and%20Hist%20Gradient%20Boosting.pdf) | Ten-page supplied English rendering |
-| [725-Article Text-3840-2-10-20260625.pdf](725-Article%20Text-3840-2-10-20260625.pdf) | Ten-page Indonesian/English journal article |
-| [Broad Research for Improving Turnover Prediction Models.pdf](Broad%20Research%20for%20Improving%20Turnover%20Prediction%20Models.pdf) | Fifteen-page methodological report and proposed extensions |
-| [Optimizing_Turnover_Prediction__Random_Forest_vs.mp4](Optimizing_Turnover_Prediction__Random_Forest_vs.mp4) | Original explainer, approximately 7 minutes 4 seconds |
+| [mental_health_burnout_tech_2026.csv](data/datasets/mental_health_burnout_tech_2026.csv) | Full 100,000-record dataset |
+| [turnover_pipeline.pkl](data/models/turnover_pipeline.pkl) | Calibrated HistGB artifact, expected features, threshold |
+| [Mental_burnut_and_turn_over_latest.ipynb](data/notebooks/Mental_burnut_and_turn_over_latest.ipynb) | Training/preprocessing code and six recorded experiments |
+| [Comparative Analysis of Tuned Random Forest and Hist Gradient Boosting.pdf](doc/research/Comparative%20Analysis%20of%20Tuned%20Random%20Forest%20and%20Hist%20Gradient%20Boosting.pdf) | Ten-page supplied English rendering |
+| [725-Article Text-3840-2-10-20260625.pdf](doc/research/725-Article%20Text-3840-2-10-20260625.pdf) | Ten-page Indonesian/English journal article |
+| [Broad Research for Improving Turnover Prediction Models.pdf](doc/research/Broad%20Research%20for%20Improving%20Turnover%20Prediction%20Models.pdf) | Fifteen-page methodological report and proposed extensions |
+| [Optimizing_Turnover_Prediction__Random_Forest_vs.mp4](doc/media/Optimizing_Turnover_Prediction__Random_Forest_vs.mp4) | Original explainer, approximately 7 minutes 4 seconds |
 
 ### Supporting documentation
 
 | Document | Contents |
 | --- | --- |
-| [Project analysis](docs/PROJECT_ANALYSIS.md) | Inventory, findings, notebook contract, discrepancies, limitations |
-| [Data dictionary](docs/DATA_DICTIONARY.md) | All 36 columns with observed ranges/categories |
-| [Workspace architecture](docs/WORKSPACES.md) | Routes, upload lifecycle, retention |
-| [GitHub Pages setup](docs/GITHUB_PAGES.md) | Push workflow, static frontend hosting, backend URL, CORS |
-| [Individual methodology](docs/SELF_ASSESSMENT.md) | Scoring, optional factors, reflection rules, attribution |
-| [Verification report](docs/VERIFICATION.md) | Test evidence and original evaluation reproduction |
-| [Research text and metadata](docs/source-analysis) | Extracted text of all PDFs and machine-readable evidence |
-| [Screenshot provenance](docs/screenshots/provenance.json) | Capture dimensions, sample metrics, illustrative inputs |
+| [Research novelty proposal](doc/Research%20Novelty.md) | Proposed explanatory and prevention-oriented research extension |
+| [Project analysis](doc/PROJECT_ANALYSIS.md) | Inventory, findings, notebook contract, discrepancies, limitations |
+| [Data dictionary](doc/DATA_DICTIONARY.md) | All 36 columns with observed ranges/categories |
+| [Workspace architecture](doc/WORKSPACES.md) | Routes, upload lifecycle, retention |
+| [GitHub Pages setup](doc/GITHUB_PAGES.md) | Push workflow, static frontend hosting, backend URL, CORS |
+| [Individual methodology](doc/SELF_ASSESSMENT.md) | Scoring, optional factors, reflection rules, attribution |
+| [Verification report](doc/VERIFICATION.md) | Test evidence and original evaluation reproduction |
+| [Research text and metadata](doc/source-analysis) | Extracted text of all PDFs and machine-readable evidence |
+| [Screenshot provenance](doc/screenshots/provenance.json) | Capture dimensions, sample metrics, illustrative inputs |
 
 ## Privacy and deployment boundaries
 
@@ -559,10 +576,10 @@ No project-wide `LICENSE` file is currently supplied. Papers, dataset, video, mo
 
 ## References and attribution
 
-1. **Yelmi, Kusrini, and Indra Gunawan (2026).** *Analisis Komparatif Algoritma Tuned Random Forest dan Hist Gradient Boosting untuk Prediksi Niat Pindah Kerja Berdasarkan Indikator Beban Mental Karyawan.* JIIFKOM, **5(2), 7–16**. [Publisher](https://jiifkom.utrcepu.ac.id/index.php/jiifkom/article/view/725). [DOI: 10.51901/jiifkom.v5i02.725](https://doi.org/10.51901/jiifkom.v5i02.725). [Supplied journal PDF](725-Article%20Text-3840-2-10-20260625.pdf) and [English rendering](Comparative%20Analysis%20of%20Tuned%20Random%20Forest%20and%20Hist%20Gradient%20Boosting.pdf).
-2. **Mohan Krishna Thalla.** *Mental Health & Burnout in Tech Workers 2026* [dataset], attributed by the paper. [Kaggle](https://www.kaggle.com/datasets/mohankrishnathalla/mental-health-and-burnout-in-tech-workers-2026). The local [CSV](mental_health_burnout_tech_2026.csv) supports the README statistics; collection process and licensing have not been independently verified here.
-3. **Supplied notebook and model.** [Mental_burnut_and_turn_over_latest.ipynb](Mental_burnut_and_turn_over_latest.ipynb) and [turnover_pipeline.pkl](turnover_pipeline.pkl). Primary sources for preprocessing, experiments, calibrated inference, and threshold. Reproduction: [verified-model.json](docs/source-analysis/verified-model.json).
-4. **Supplied methodological report.** *Advanced Machine Learning Architectures for Cost-Sensitive Employee Turnover Prediction: A Comprehensive Analysis and Methodological Blueprint.* [Report PDF](Broad%20Research%20for%20Improving%20Turnover%20Prediction%20Models.pdf). Author/publication metadata is not established here. Proposed methods are distinguished from implemented models.
+1. **Yelmi, Kusrini, and Indra Gunawan (2026).** *Analisis Komparatif Algoritma Tuned Random Forest dan Hist Gradient Boosting untuk Prediksi Niat Pindah Kerja Berdasarkan Indikator Beban Mental Karyawan.* JIIFKOM, **5(2), 7–16**. [Publisher](https://jiifkom.utrcepu.ac.id/index.php/jiifkom/article/view/725). [DOI: 10.51901/jiifkom.v5i02.725](https://doi.org/10.51901/jiifkom.v5i02.725). [Supplied journal PDF](doc/research/725-Article%20Text-3840-2-10-20260625.pdf) and [English rendering](doc/research/Comparative%20Analysis%20of%20Tuned%20Random%20Forest%20and%20Hist%20Gradient%20Boosting.pdf).
+2. **Mohan Krishna Thalla.** *Mental Health & Burnout in Tech Workers 2026* [dataset], attributed by the paper. [Kaggle](https://www.kaggle.com/datasets/mohankrishnathalla/mental-health-and-burnout-in-tech-workers-2026). The local [CSV](data/datasets/mental_health_burnout_tech_2026.csv) supports the README statistics; collection process and licensing have not been independently verified here.
+3. **Supplied notebook and model.** [Mental_burnut_and_turn_over_latest.ipynb](data/notebooks/Mental_burnut_and_turn_over_latest.ipynb) and [turnover_pipeline.pkl](data/models/turnover_pipeline.pkl). Primary sources for preprocessing, experiments, calibrated inference, and threshold. Reproduction: [verified-model.json](doc/source-analysis/verified-model.json).
+4. **Supplied methodological report.** *Advanced Machine Learning Architectures for Cost-Sensitive Employee Turnover Prediction: A Comprehensive Analysis and Methodological Blueprint.* [Report PDF](doc/research/Broad%20Research%20for%20Improving%20Turnover%20Prediction%20Models.pdf). Author/publication metadata is not established here. Proposed methods are distinguished from implemented models.
 5. **National Research Centre for the Working Environment (NFA).** *Copenhagen Burnout Inventory (English version) used in the PUMA study.* [Questionnaire and scoring](https://nfa.dk/media/a4wheblj/cbi-scales.pdf). [Usage conditions](https://nfa.dk/vaerktoejer/spoergeskemaer/spoergeskema-til-maaling-af-udbraendthed-cbi/copenhagen-burnout-inventory-cbi). NFA permits commercial and non-commercial use with clear citation of Borritz et al. below.
 6. **Borritz M, Rugulies R, Bjorner JB, Villadsen E, Mikkelsen OA, Kristensen TS (2006).** *Burnout among employees in human service work: design and baseline findings of the PUMA study.* Scandinavian Journal of Public Health, **34(1), 49–58**. [DOI: 10.1080/14034940510032275](https://journals.sagepub.com/doi/10.1080/14034940510032275). Required CBI attribution.
 7. **World Health Organization.** *Burn-out an occupational phenomenon.* [Official ICD-11 explanation](https://www.who.int/standards/classifications/frequently-asked-questions/burn-out-an-occupational-phenomenon).
