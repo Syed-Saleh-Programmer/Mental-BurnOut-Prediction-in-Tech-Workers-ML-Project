@@ -205,6 +205,8 @@ Pages builds use the correct repository asset path and hash routes such as `/#/h
 
 See [GitHub Pages setup](docs/GITHUB_PAGES.md) for the one-time settings, backend connection, permissions, URLs, and troubleshooting. The workflow follows the official [Vite Pages guidance](https://vite.dev/guide/static-deploy#github-pages) and [GitHub custom workflow documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
 
+The frontend uses GitHub Pages' default address, **`https://OWNER.github.io/REPOSITORY/`**. No custom domain or DNS configuration is needed. Leave **Custom domain** empty in repository Pages settings; see the [default URL instructions](docs/GITHUB_PAGES.md#use-the-default-github-pages-url).
+
 ## Using the application
 
 ### Analyze a workforce file

@@ -18,9 +18,17 @@ There is currently no public backend URL configured in this project. The fronten
 
 The default branch is read from GitHub event metadata; it is not hard-coded to `main` or `master`. The deployment environment must allow that branch. Actions are pinned to full commit SHAs from the official Vite deployment example. Only the deploy job receives Pages-write and OIDC-token permissions.
 
+## Use the default GitHub Pages URL
+
+The deployment uses **`https://OWNER.github.io/REPOSITORY/`**, where GitHub supplies the owner and repository names. A repository named `OWNER.github.io` uses the root address `https://OWNER.github.io/`. No custom domain, domain purchase, or DNS configuration is needed.
+
+In repository **Settings → Pages**, keep **Source** set to **GitHub Actions** and remove any value under **Custom domain**. If a custom domain is inherited from the owner's `OWNER.github.io` site repository, remove it in that repository's Pages settings as well. Then rerun the workflow or push to the default branch. The deployment environment displays the resulting site URL.
+
+The workflow checks that the reported hostname ends in `.github.io`, and derives asset paths from GitHub's Pages metadata. It does not guess an account name or hard-code a domain. This local update does not change remote repository settings.
+
 ## URLs, repository names, and refreshes
 
-`actions/configure-pages` supplies the real Pages base path to Vite, supporting both repository sites and root/custom-domain sites. Pages builds use hash routing, for example:
+`actions/configure-pages` supplies the real Pages base path to Vite, supporting both repository sites and root user/organization sites. Pages builds use hash routing, for example:
 
 ```text
 https://OWNER.github.io/REPOSITORY/
@@ -45,10 +53,10 @@ Use a single worker with the current in-memory analysis store. The existing auth
 Set this environment variable **on the backend host**, then restart FastAPI:
 
 ```text
-WORKWELL_ALLOWED_ORIGINS=https://OWNER.github.io
+WORKWELL_ALLOWED_ORIGINS=https://YOUR_GITHUB_USERNAME.github.io
 ```
 
-For a custom domain use its origin instead, such as `https://workwell.example.org`. Origins do not include the repository path or a trailing slash. Multiple allowed origins can be comma-separated. The middleware permits the GET, POST, and DELETE requests needed by the app and handles preflight requests for JSON submissions. Credentials/cookies are not enabled.
+Replace `YOUR_GITHUB_USERNAME` with the repository owner's GitHub username or organization name. Use the frontend's actual `.github.io` origin. Origins do not include the repository path or a trailing slash. Multiple allowed origins can be comma-separated. The middleware permits the GET, POST, and DELETE requests needed by the app and handles preflight requests for JSON submissions. Credentials/cookies are not enabled.
 
 Without this variable, the backend keeps its same-origin behavior used by the local Vite proxy and combined serving.
 
@@ -90,8 +98,9 @@ For local experimentation, copy [frontend/.env.example](../frontend/.env.example
 | Configure Pages step fails | Enable Pages with **GitHub Actions** as its source, then rerun |
 | Build succeeds but deploy is skipped | Only the default branch publishes; branch/tag pushes still build |
 | Deploy is rejected by the environment | Allow the default branch in the `github-pages` environment's deployment rules |
+| Default URL check reports a custom domain | Remove the Custom domain in Pages settings, including an inherited domain on the owner site if applicable, then rerun |
 | Landing works but analysis service is unavailable | Host FastAPI, set `WORKWELL_BACKEND_URL`, and rebuild |
-| Browser reports CORS errors | Set the exact Pages/custom-domain origin on the backend and restart it |
+| Browser reports CORS errors | Set the exact Pages origin on the backend and restart it |
 | Old backend URL is still used | Repository variables are build-time inputs; rerun the workflow |
 | Blank page or asset 404s | Keep the workflow's Pages-derived `--base`; do not substitute a guessed repository name |
 | Deep link gives a Pages 404 | Use the generated `/#/hr` or `/#/individual` link, not `/hr` as a server path |
