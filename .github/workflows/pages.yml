@@ -37,17 +37,18 @@ jobs:
         id: pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
 
-      - name: Verify default Pages URL
+      - name: Report configured Pages URL
         env:
           CONFIGURED_PAGES_URL: ${{ steps.pages.outputs.base_url }}
         shell: bash
         run: |
           node --input-type=module <<'JS'
           const host = new URL(process.env.CONFIGURED_PAGES_URL).hostname.toLowerCase();
-          if (!host.endsWith('.github.io')) {
-            throw new Error(`GitHub Pages is configured with a custom domain (${host}). Remove the Custom domain in repository Settings > Pages, then rerun this workflow to use the default github.io URL.`);
+          if (host.endsWith('.github.io')) {
+            console.log(`Using the default Pages URL: ${process.env.CONFIGURED_PAGES_URL}`);
+          } else {
+            console.log(`::notice::Using custom GitHub Pages domain: ${process.env.CONFIGURED_PAGES_URL}`);
           }
-          console.log(`Using the default Pages URL: ${process.env.CONFIGURED_PAGES_URL}`);
           JS
 
       - name: Check backend configuration
